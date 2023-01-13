@@ -2,11 +2,15 @@ extends KinematicBody2D
 
 var velocity := Vector2.ZERO;
 var speed := 200;
+var normal_shot = preload("res://Scenes/Projectile.tscn");
 
 
 func _process(_delta):
 	movement();
-	var _a = move_and_slide(velocity);
+	move_and_slide(velocity);
+	
+	if Input.is_action_just_pressed("shoot") && $Timer.is_stopped():
+		shoot();
 	
 	if self.position.x < 16 :
 		self.position.x = 16;
@@ -30,10 +34,22 @@ func movement():
 		velocity.x = speed;
 		$AnimationPlayer.play("right");
 	if Input.is_action_pressed("top"):
-		print_debug(self.position.y);
 		velocity.y = -speed;
 	if Input.is_action_pressed("down"):
 		velocity.y = speed;
+		
+	velocity = velocity.normalized() * speed;
 	
 
 
+func shoot() :
+	var inst = normal_shot.instance();
+	inst.position = $left_shoot_position.global_position;
+	get_parent().add_child(inst);
+	
+	
+	var inst_1 = normal_shot.instance();
+	inst_1.position = $right_shoot_position.global_position;
+	get_parent().add_child(inst_1);
+	
+	$Timer.start()
