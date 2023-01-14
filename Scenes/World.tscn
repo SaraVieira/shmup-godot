@@ -19,6 +19,6 @@ centered = false
 script = ExtResource( 2 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 29.1393, 165.041 )
+position = Vector2( 43.9522, 164.195 )
 
 [node name="PowerUpSpawner" parent="." instance=ExtResource( 4 )]

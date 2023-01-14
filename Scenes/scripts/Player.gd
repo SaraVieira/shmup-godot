@@ -6,7 +6,7 @@ var default_speed : int = 200;
 export var speed:int = default_speed;
 var normal_shot = preload("res://Scenes/Projectile.tscn");
 var active_power: String;
-var has_shield: bool = false;
+var has_shield: bool = true;
 var health := 3;
 var multi_shot := false;
 
@@ -17,16 +17,15 @@ func _process(_delta):
 	if Input.is_action_just_pressed("shoot") && $Timer.is_stopped():
 		shoot();
 	
-	if self.position.x < 16 :
-		self.position.x = 16;
+	if self.position.x < 38:
+		self.position.x = 38;
+	if self.position.x > 600:
+		self.position.x = 600;
 	
-	if self.position.x > 624 :
-		self.position.x = 624;
-	
-	if self.position.y > 345 :
-		self.position.y = 345;
-	if self.position.y < 24 :
-		self.position.y = 24;
+	if self.position.y > 320:
+		self.position.y = 320;
+	if self.position.y < 36:
+		self.position.y = 36;
 	
 func movement():
 	velocity = Vector2.ZERO;
