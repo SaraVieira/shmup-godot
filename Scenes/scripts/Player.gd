@@ -1,9 +1,14 @@
 extends KinematicBody2D
 
 var velocity := Vector2.ZERO;
-export var speed := 200;
+var speed_multiplier := 2;
+var default_speed : int = 200;
+export var speed:int = default_speed;
 var normal_shot = preload("res://Scenes/Projectile.tscn");
 var active_power: String;
+var has_shield: bool = false;
+var health := 3;
+var multi_shot := false;
 
 func _process(_delta):
 	movement();
@@ -40,25 +45,54 @@ func movement():
 		
 	velocity = velocity.normalized() * speed;
 	
+func inst_with_postion(pos):
+	var inst = normal_shot.instance();
+	self.add_collision_exception_with(inst);
+	inst.position = pos.global_position;
+	get_parent().add_child(inst);
+	
+	return inst;
 
 
 func shoot() :
-	var inst = normal_shot.instance();
-	inst.position = $left_shoot_position.global_position;
-	get_parent().add_child(inst);
+	if multi_shot:
+		var inst = inst_with_postion($left_shoot_position)
+		var inst_1 = inst_with_postion($right_shoot_position)
+		var inst_2 = inst_with_postion($left_shoot_position)
+		var inst_3 = inst_with_postion($right_shoot_position)
+		var v = 25;
+		inst.velocity.y = -v;
+		inst_1.velocity.y = -v;
+		inst_2.velocity.y = v;
+		inst_3.velocity.y = v;
+	else:
+		inst_with_postion($left_shoot_position)
+		inst_with_postion($right_shoot_position)
 	
 	
-	var inst_1 = normal_shot.instance();
-	inst_1.position = $right_shoot_position.global_position;
-	get_parent().add_child(inst_1);
+	
+	
+	
+	
 	
 	$Timer.start()
 	$AudioStreamPlayer.play()
 
 
-func _on_PowerOffTimer_timeout():
-	match active_power:
-		"Speed":
-			speed = 100;
-		_:
-			pass;
+func _on_Area2D_body_entered(body):
+	has_shield = false;
+
+func enable_multi_shot():
+	multi_shot = true;
+	yield(get_tree().create_timer(5), "timeout")
+	multi_shot = false;
+	
+func enable_speed():
+	speed *= speed_multiplier;
+	yield(get_tree().create_timer(10), "timeout")
+	speed = default_speed;	
+
+func enable_shield():
+	has_shield = true;
+	$shield.visible = true;
+	$shield/ShieldAnimation.play("shield");

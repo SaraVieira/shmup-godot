@@ -1,16 +1,12 @@
 extends Sprite
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+var speed = 8
+export var reset_scrol := 640
+export var start_scrol := 0
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-#	pass
+	self.position.x -= delta * speed
+
+	if self.position.x > reset_scrol:
+		self.position.x = start_scrol

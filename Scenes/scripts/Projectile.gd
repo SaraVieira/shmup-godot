@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 
 var velocity := Vector2.ZERO;
-var speed := 100;
+var speed := 200;
 
 
 # Called when the node enters the scene tree for the first time.
