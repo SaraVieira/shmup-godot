@@ -1,5 +1,4 @@
 extends KinematicBody2D
-signal power_up_gotten(power_up)
 
 enum POWERUPTYPE {
 	Shield,
@@ -15,7 +14,7 @@ var speed_multiplier = 2;
 func _ready():
 	velocity.x = -speed;
 
-func _process(delta):
+func _process(_delta):
 	move_and_slide(velocity)
 
 
