@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Assets/Player_SpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/scripts/Player.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Sounds/laserLarge_002.ogg" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 17.2124, 13.8464 )
@@ -53,7 +54,16 @@ tracks/0/keys = {
 }
 
 [node name="Player" type="KinematicBody2D"]
+rotation = 1.5708
 script = ExtResource( 2 )
+
+[node name="PowerUpTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="PowerUpTimer2" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -78,3 +88,10 @@ position = Vector2( -11.5513, -17.6748 )
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.2
 one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -25.482
+
+[connection signal="timeout" from="PowerUpTimer" to="." method="_on_PowerOffTimer_timeout"]
+[connection signal="timeout" from="PowerUpTimer2" to="." method="_on_PowerOffTimer_timeout"]

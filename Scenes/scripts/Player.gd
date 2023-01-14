@@ -1,9 +1,9 @@
 extends KinematicBody2D
 
 var velocity := Vector2.ZERO;
-var speed := 200;
+export var speed := 200;
 var normal_shot = preload("res://Scenes/Projectile.tscn");
-
+var active_power: String;
 
 func _process(_delta):
 	movement();
@@ -29,14 +29,14 @@ func movement():
 	
 	if Input.is_action_pressed("left"):
 		velocity.x = -speed;
-		$AnimationPlayer.play("left");
 	if Input.is_action_pressed("Right"):
 		velocity.x = speed;
-		$AnimationPlayer.play("right");
 	if Input.is_action_pressed("top"):
 		velocity.y = -speed;
+		$AnimationPlayer.play("left");
 	if Input.is_action_pressed("down"):
 		velocity.y = speed;
+		$AnimationPlayer.play("right");
 		
 	velocity = velocity.normalized() * speed;
 	
@@ -53,3 +53,12 @@ func shoot() :
 	get_parent().add_child(inst_1);
 	
 	$Timer.start()
+	$AudioStreamPlayer.play()
+
+
+func _on_PowerOffTimer_timeout():
+	match active_power:
+		"Speed":
+			speed = 100;
+		_:
+			pass;

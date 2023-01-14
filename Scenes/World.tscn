@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Assets/bg.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Background.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Spawner.tscn" type="PackedScene" id=4]
 
 [node name="World" type="Node2D"]
 
@@ -12,12 +13,12 @@ centered = false
 script = ExtResource( 2 )
 
 [node name="Background2" type="Sprite" parent="."]
-position = Vector2( 0, -360 )
+position = Vector2( 638.663, 0 )
 texture = ExtResource( 1 )
 centered = false
 script = ExtResource( 2 )
-reset_scrol = 0
-start_scrol = -360
 
-[node name="KinematicBody2D" parent="." instance=ExtResource( 3 )]
-position = Vector2( 319.308, 312.8 )
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 29.1393, 165.041 )
+
+[node name="PowerUpSpawner" parent="." instance=ExtResource( 4 )]
